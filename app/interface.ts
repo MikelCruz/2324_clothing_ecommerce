@@ -17,3 +17,12 @@ export interface fullProduct {
   description: string;
   price_id: string;
 }
+
+export interface fullUser {
+  _id: string;
+  images: any;
+  slug: string;
+  name: string;
+  description: string;
+  email: string;
+}

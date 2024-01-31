@@ -1,10 +1,25 @@
 import Link from "next/link";
-import { simplifiedProduct } from "../interface";
+import { fullUser, simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
 
-async function getData(cateogry: string) {
-  const query = `*[_type == "product" && category->name == "${cateogry}"] {
+async function getData(cateogry: string) {  //cambiar category por user
+  const query = `*[_type == "product" && category->name == "${cateogry}"] { 
+        _id,
+          "imageUrl": images[0].asset->url,
+          price,
+          name,
+          "slug": slug.current,
+          "categoryName": category->name
+      }`;
+
+  const data = await client.fetch(query);
+
+  return data;
+}
+
+async function getUserData(user: string) {  //cambiar category por user
+  const query = `*[_type == "users" && category->name == "${user}"] { 
         _id,
           "imageUrl": images[0].asset->url,
           price,
@@ -26,13 +41,33 @@ export default async function CategoryPage({
   params: { category: string };
 }) {
   const data: simplifiedProduct[] = await getData(params.category);
+  const userData: fullUser[] = await getUserData(params.category);
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 sm:px-6  lg:max-w-7xl lg:px-8">
+        {/* perfil del usuario (contactPage) */}
+        <div className="flex items-left">
+        <Image
+            src={data[0].imageUrl}
+            alt="Product image"
+            className="object-center rounded-full"
+            width={200}
+            height={200}
+          />
+
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            Productos de {params.category}
+          </h2>
+
+        </div>
+
+
+
+        
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Our Products for {params.category}
+            Productos de {params.category}
           </h2>
         </div>
 

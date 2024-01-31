@@ -9,7 +9,7 @@ import { useShoppingCart } from "use-shopping-cart";
 const links = [
   {name: 'Home',  href: '/'},
   {name: 'Men',   href: '/Men'},
-  {name: 'Women', href: '/Women'},
+  {name: 'Women', href: '/Women'},  //aqui se tiene que poner el name 
   {name: 'Teens', href: '/Teens'},
 ]
 
