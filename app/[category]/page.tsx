@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { simplifiedProduct } from "../interface";
+import { fullUser, simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
 
-async function getData(cateogry: string) {
-  const query = `*[_type == "product" && category->name == "${cateogry}"] {
+async function getData(user: string) {
+  const query = `*[_type == "product" && user->name == "${user}"] {
         _id,
           "imageUrl": images[0].asset->url,
           price,
           name,
           "slug": slug.current,
-          "categoryName": category->name
+          "userName": user->name
       }`;
 
   const data = await client.fetch(query);
@@ -18,33 +18,50 @@ async function getData(cateogry: string) {
   return data;
 }
 
+async function getUserData(user: string) {
+  const query = `*[_type == "user" && name->userName == "${user}"] {
+        _id,
+          "imageUrl": images[0].asset->url,
+          "slug": slug.current,
+          "name": category->userName,
+          about,
+          email
+      }`;
+
+  const data = await client.fetch(query);
+
+  return data;
+}
+
+
 export const dynamic = "force-dynamic";
 
 export default async function CategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: { user: string };
 }) {
-  const data: simplifiedProduct[] = await getData(params.category);
+  const data: simplifiedProduct[] = await getData(params.user);
+  const userData: fullUser[] = await getUserData(params.user);
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="flex items-left" style={{ marginBottom: "5%", marginLeft: "5%", marginTop: "5%" }}>
           <Image
-            src={data[0] ? data[0].imageUrl : ""}
+            src={userData[0] ? userData[0].images : ""}
             alt="Product image"
             className="object-cover object-center rounded-full"
             width={200}
             height={200}
-            style={{ marginRight: "5%" }} // Añade margen derecho para separar "Our Products"
+            style={{ marginRight: "5%" }} 
           />
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-4">
-              Our Products for {params.category}
+              Our Products for {params.user}
             </h2>
-            <p className="text-lg text-gray-700 mb-2">[description]</p>
-            <p className="text-lg text-gray-700" style={{ marginLeft: "10%" }} >Email</p>
+            <p className="text-lg text-gray-700 mb-2">{userData[0].about}</p>
+            <p className="text-lg text-gray-700" style={{ marginLeft: "10%" }} >{userData[0].email}</p>
           </div>
         </div>
 
@@ -69,7 +86,7 @@ export default async function CategoryPage({
                     </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
-                    {product.categoryName}
+                    {product.userName}
                   </p>
                 </div>
                 <p className="text-sm font-medium text-gray-900">

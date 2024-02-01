@@ -3,7 +3,7 @@ export interface simplifiedProduct {
   imageUrl: string;
   price: number;
   slug: string;
-  categoryName: string;
+  userName: string;
   name: string;
 }
 
@@ -12,7 +12,7 @@ export interface fullProduct {
   images: any;
   price: number;
   slug: string;
-  categoryName: string;
+  userName: string;
   name: string;
   description: string;
   price_id: string;
@@ -23,6 +23,6 @@ export interface fullUser {
   images: any;
   slug: string;
   name: string;
-  description: string;
+  about: string;
   email: string;
 }

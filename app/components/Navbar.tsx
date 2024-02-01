@@ -5,6 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
+import { client } from "../lib/sanity";
+
+async function getLinks() {
+  const query = `*[_type == "user" ] {
+        _id,
+        name
+      }`;
+
+  const data = await client.fetch(query);
+
+  const links = [{name: 'Home',  href: '/'}];
+
+  data.map((user: any) => {
+    links.push({name: user.name,   href: '/' + user.name})
+  })
+  return links;
+}
 
 const links = [
   {name: 'Home',  href: '/'},
@@ -13,7 +30,7 @@ const links = [
   {name: 'Teens', href: '/Teens'},
 ]
 
-export default function Navbar() {
+export default async function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart();
   return (
@@ -26,7 +43,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden gap-12 lg:flex 2xl:ml-16">
-          {links.map((link, idx) => (
+          {(await getLinks()).map((link, idx) => (
             <div key={idx}>
               {pathname === link.href ? (
                 <Link
