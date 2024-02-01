@@ -1,25 +1,10 @@
 import Link from "next/link";
-import { fullUser, simplifiedProduct } from "../interface";
+import { simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
 
-async function getData(cateogry: string) {  //cambiar category por user
-  const query = `*[_type == "product" && category->name == "${cateogry}"] { 
-        _id,
-          "imageUrl": images[0].asset->url,
-          price,
-          name,
-          "slug": slug.current,
-          "categoryName": category->name
-      }`;
-
-  const data = await client.fetch(query);
-
-  return data;
-}
-
-async function getUserData(user: string) {  //cambiar category por user
-  const query = `*[_type == "users" && category->name == "${user}"] { 
+async function getData(cateogry: string) {
+  const query = `*[_type == "product" && category->name == "${cateogry}"] {
         _id,
           "imageUrl": images[0].asset->url,
           price,
@@ -41,34 +26,26 @@ export default async function CategoryPage({
   params: { category: string };
 }) {
   const data: simplifiedProduct[] = await getData(params.category);
-  const userData: fullUser[] = await getUserData(params.category);
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6  lg:max-w-7xl lg:px-8">
-        {/* perfil del usuario (contactPage) */}
-        <div className="flex items-left">
-        <Image
-            src={data[0].imageUrl}
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="flex items-left" style={{ marginBottom: "5%" }}>
+          <Image
+            src={data[0] ? data[0].imageUrl : ""}
             alt="Product image"
-            className="object-center rounded-full"
+            className="object-cover object-center rounded-full"
             width={200}
             height={200}
+            style={{ marginRight: "5%" }} // Añade margen derecho para separar "Our Products"
           />
-
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Productos de {params.category}
-          </h2>
-
-        </div>
-
-
-
-        
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Productos de {params.category}
-          </h2>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-4">
+              Our Products for {params.category}
+            </h2>
+            <p className="text-lg text-gray-700 mb-2">[description]</p>
+            <p className="text-lg text-gray-700" style={{ marginLeft: "10%" }} >Email</p>
+          </div>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
