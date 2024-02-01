@@ -30,7 +30,7 @@ export default async function CategoryPage({
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="flex items-left" style={{ marginBottom: "5%" }}>
+        <div className="flex items-left" style={{ marginBottom: "5%", marginLeft: "5%", marginTop: "5%" }}>
           <Image
             src={data[0] ? data[0].imageUrl : ""}
             alt="Product image"
