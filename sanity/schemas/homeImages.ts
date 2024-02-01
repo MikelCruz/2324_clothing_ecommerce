@@ -1,7 +1,7 @@
 export default {
   name: 'heroImage',
   type: 'document',
-  title: 'Two Hero Images',
+  title: 'Home Images',
   fields: [
     {
       name: 'image1',
@@ -12,6 +12,12 @@ export default {
       name: 'image2',
       type: 'image',
       title: 'Second Image',
+    },
+    {
+      name: 'images',
+      type: 'array',
+      title: 'Carrousel Images',
+      of: [{type: 'image'}],
     },
   ],
 }
