@@ -9,11 +9,6 @@ export default {
       title: 'Name of Product',
     },
     {
-      name: 'designer',
-      type: 'string',
-      title: 'Name of the Designer',
-    },
-    {
       name: 'images',
       type: 'array',
       title: 'Product Images',
