@@ -8,7 +8,7 @@ import { useShoppingCart } from "use-shopping-cart";
 import { client } from "../lib/sanity";
 
 async function getLinks() {
-  const query = `*[_type == "user" ] {
+  const query = `*[_type == "designer" ] {
         _id,
         name
       }`;
@@ -23,16 +23,17 @@ async function getLinks() {
   return links;
 }
 
-const links = [
-  {name: 'Home',  href: '/'},
-  {name: 'Men',   href: '/Men'},
-  {name: 'Women', href: '/Women'},  //aqui se tiene que poner el name 
-  {name: 'Teens', href: '/Teens'},
-]
+// const links = [
+//   {name: 'Home',  href: '/'},
+//   {name: 'Men',   href: '/Men'},
+//   {name: 'Women', href: '/Women'},  //aqui se tiene que poner el name 
+//   {name: 'Teens', href: '/Teens'},
+// ]
 
 export default async function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart();
+  const links = await getLinks();
   return (
     <header className="mb-8 border-b">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
@@ -43,7 +44,7 @@ export default async function Navbar() {
         </Link>
 
         <nav className="hidden gap-12 lg:flex 2xl:ml-16">
-          {(await getLinks()).map((link, idx) => (
+          {links.map((link, idx) => (
             <div key={idx}>
               {pathname === link.href ? (
                 <Link

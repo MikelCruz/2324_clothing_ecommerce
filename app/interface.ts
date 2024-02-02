@@ -20,7 +20,7 @@ export interface fullProduct {
 
 export interface fullUser {
   _id: string;
-  image: any;
+  imageUrl: any;
   slug: string;
   name: string;
   about: string;
