@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { client } from "../lib/sanity";
-import Constants from './Constants'
 
 // Aqui se cambian los links de jonathan y esther
 
