@@ -1,16 +1,16 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'ecommerce Mike',
+  title: 'vestu-test',
 
-  projectId: 'f5u609gw',
+  projectId: '02ib2d0m',
   dataset: 'production',
 
-  plugins: [deskTool(), visionTool()],
+  plugins: [structureTool(), visionTool()],
 
   schema: {
     types: schemaTypes,

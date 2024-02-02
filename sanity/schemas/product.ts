@@ -9,6 +9,11 @@ export default {
       title: 'Name of Product',
     },
     {
+      name: 'designer',
+      type: 'string',
+      title: 'Name of the Designer',
+    },
+    {
       name: 'images',
       type: 'array',
       title: 'Product Images',
@@ -38,12 +43,12 @@ export default {
       type: 'string',
     },
     {
-      name: 'category',
-      title: 'Product Category',
+      name: 'designer',
+      title: 'Designer',
       type: 'reference',
       to: [
         {
-          type: 'category',
+          type: 'designer',
         },
       ],
     },
