@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { client } from "../lib/sanity";
-
+import Constants from './Constants'
 
 // Aqui se cambian los links de jonathan y esther
 
@@ -41,7 +41,7 @@ export default async function Navbar() {
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
         <Link href="/">
           <h1 className="text-2xl md:text-4xl font-bold">
-            La Tienda<span className="text-primary">En Casa</span>
+            La Tienda<span style={{color: 'rgba(232, 195, 158)'}} className="text-primary">En Casa</span>
           </h1>
         </Link>
         <nav className="hidden gap-12 lg:flex 2xl:ml-16">
