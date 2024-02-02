@@ -4,16 +4,38 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
-// Aqui se cambian los links de jonathan y ester
-const links = [
-  {name: 'Home',  href: '/'},
-  {name: 'Men',   href: '/Men'},
-  {name: 'Women', href: '/Women'},
-  {name: 'Teens', href: '/Teens'},
-]
-export default function Navbar() {
+import { client } from "../lib/sanity";
+
+
+// Aqui se cambian los links de jonathan y esther
+
+async function getLinks() {
+  const query = `*[_type == "designer" ] {
+        _id,
+        name
+      }`;
+
+  const data = await client.fetch(query);
+
+  const links = [{name: 'Home',  href: '/'}];
+
+  data.map((user: any) => {
+    links.push({name: user.name,   href: '/' + user.name})
+  })
+  return links;
+}
+
+// const links = [
+//   {name: 'Home',  href: '/'},
+//   {name: 'Men',   href: '/Men'},
+//   {name: 'Women', href: '/Women'},
+//   {name: 'Teens', href: '/Teens'},
+// ]
+export default async function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart();
+  const links = await getLinks();
+
   return (
     <header className="mb-8">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
