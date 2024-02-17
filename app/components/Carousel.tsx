@@ -1,38 +1,57 @@
 "use client";
-import React from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-const Carousel = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const Carousel = ({ slides }) => {
+  const [curr, setCurr] = useState(0);
+
+  console.log("Initial curr:", curr);
+
+  console.log(`translateX: -${curr * 100}vw`);
+
+  console.log(`Current index (curr): ${curr}`);
+
+  console.log(slides.length)
+
+  const prev = () => {
+    console.log("El botón anterior ha sido pulsado");
+    setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
   };
+
+  const next = () => {
+    console.log("El botón siguiente ha sido pulsado");
+    setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
+  };
+
   return (
-    <div className="">
-      <div style={{
-        marginTop: '6%',
-        marginBottom: '3',
-        backgroundColor: 'rgba(232, 195, 158, 0.7)',
-        borderRadius: '20px' }}
-        className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <Slider {...settings}>
-        <div>
-          <img src="../../assets/image1.jpg" alt="Image 1" />
-        </div>
-        <div>
-          <img src="../../assets/image3.jpg" alt="Image 2" />
-        </div>
-        <div>
-          <img src="../../assets/image2.jpg" alt="Image 3" />
-        </div>
-        {/* Add more slides as needed */}
-      </Slider>
+    <div className="overflow-hidden relative">
+      <div
+        className="flex transition-transform ease-out duration-500"
+        style={{ transform: `translateX(-${curr * 100}vw)` }}
+      >
+        {slides.map((slide, index) => (
+          <img key={index} src={slide} alt={`Slide ${index + 1}`} />
+        ))}
+      </div>
+      <div className="absolute inset-0 flex items-center justify-between p-4">
+        <button
+          onClick={prev}
+          className="p-1 rounded-full shadow bg-white-80 text-gray-800 hover:bg-white"
+        >
+          <ChevronLeft size={40} />
+        </button>
+        <button
+          onClick={next}
+          className="p-1 rounded-full shadow bg-white-80 text-gray-800 hover:bg-white"
+        >
+          <ChevronRight size={40} />
+        </button>
       </div>
     </div>
   );
 };
+
 export default Carousel;
+
+
